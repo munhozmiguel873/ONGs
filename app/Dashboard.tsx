@@ -1,9 +1,11 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useRouter, useSearchParams } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { userName, voluntarioId } = useSearchParams();
+  const params = useLocalSearchParams<{ userName?: string; voluntarioId?: string }>();
+  const userName = params.userName ?? "voluntário";
+  const voluntarioId = params.voluntarioId ?? "0";
 
   const handleLogout = () => {
     router.replace("/");

@@ -14,15 +14,11 @@ export default function Login() {
     }
 
     const expectedPassword = "123456";
+    const trimmedName = name.trim();
 
     if (password === expectedPassword) {
-      router.push({
-        pathname: "/Dashboard",
-        params: {
-          userName: name,
-          voluntarioId: Math.floor(Math.random() * 1000) + 1,
-        },
-      });
+      const voluntarioId = Math.floor(Math.random() * 1000) + 1;
+      router.push(`/Dashboard?userName=${encodeURIComponent(trimmedName)}&voluntarioId=${voluntarioId}`);
     } else {
       Alert.alert("Erro", "Senha inválida. Tente novamente.");
     }
@@ -36,6 +32,7 @@ export default function Login() {
         style={styles.input}
         placeholder="Nome do voluntário"
         placeholderTextColor="#666"
+        autoCapitalize="words"
         value={name}
         onChangeText={setName}
       />
@@ -44,6 +41,8 @@ export default function Login() {
         placeholder="Senha"
         placeholderTextColor="#666"
         secureTextEntry
+        autoCapitalize="none"
+        autoCorrect={false}
         value={password}
         onChangeText={setPassword}
       />
