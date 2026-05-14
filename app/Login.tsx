@@ -18,7 +18,10 @@ export default function Login() {
 
     if (password === expectedPassword) {
       const voluntarioId = Math.floor(Math.random() * 1000) + 1;
-      router.push(`/Dashboard?userName=${encodeURIComponent(trimmedName)}&voluntarioId=${voluntarioId}`);
+      router.push({
+        pathname: '/(tabs)/Dashboard',
+        params: { userName: trimmedName, voluntarioId: voluntarioId.toString() },
+      });
     } else {
       Alert.alert("Erro", "Senha inválida. Tente novamente.");
     }
