@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   View,
   Text,
@@ -7,64 +8,101 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import colors from '../styles/colors';
+import cores from '../styles/colors';
 
-type Props = {
+type Propriedades = {
   nome: string;
   causa: string;
   imagem: string;
   onPress?: () => void;
 };
 
-export default function ONGCard({ nome, causa, imagem, onPress }: Props) {
+export default function CartaoONG({
+  nome,
+  causa,
+  imagem,
+  onPress,
+}: Propriedades) {
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={estilos.cartao}
       onPress={onPress}
       activeOpacity={0.85}
     >
-      <Image source={{ uri: imagem }} style={styles.logo} />
+      <Image
+        source={{ uri: imagem }}
+        style={estilos.logo}
+      />
 
-      <View style={styles.content}>
-        <Text style={styles.nome}>{nome}</Text>
-        <Text style={styles.causa}>{causa}</Text>
+      <View style={estilos.conteudo}>
+        <Text style={estilos.nome}>
+          {nome}
+        </Text>
+
+        <Text style={estilos.causa}>
+          {causa}
+        </Text>
       </View>
     </TouchableOpacity>
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
+const estilos = StyleSheet.create({
+  cartao: {
     flexDirection: 'row',
+
     alignItems: 'center',
-    backgroundColor: colors.white,
+
+    backgroundColor: cores.white,
+
     borderRadius: 18,
+
     padding: 14,
+
     marginBottom: 14,
+
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
+
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+
     shadowOpacity: 0.12,
+
     shadowRadius: 6,
+
     elevation: 4,
   },
+
   logo: {
     width: 70,
     height: 70,
+
     borderRadius: 16,
+
     marginRight: 14,
-    backgroundColor: colors.gray,
+
+    backgroundColor: cores.gray,
   },
-  content: {
+
+  conteudo: {
     flex: 1,
   },
+
   nome: {
     fontSize: 16,
+
     fontWeight: '700',
-    color: colors.text,
+
+    color: cores.text,
+
     marginBottom: 4,
   },
+
   causa: {
     fontSize: 14,
-    color: colors.gray,
+
+    color: cores.gray,
   },
 });

@@ -8,46 +8,56 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import ONGCard from '../components/ONGCard';
-import ONGModal from '../components/ONGModal';
-import { ongs } from '../data/ongs';
+import CartaoONG from '../components/ONGCard';
+import ModalONG from '../components/ONGModal';
+import { listaOngs } from '../data/ongs';
+
+type ONG = {
+  id: string;
+  nome: string;
+  causa: string;
+  descricao: string;
+  imagem: string;
+};
 
 export default function Explorar() {
-  const [loading, setLoading] = useState(true);
-  const [dados, setDados] = useState<any[]>([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [ongSelecionada, setOngSelecionada] = useState<any>(null);
+  const [carregando, setCarregando] = useState(true);
+  const [dados, setDados] = useState<ONG[]>([]);
+  const [modalVisivel, setModalVisivel] = useState(false);
+  const [ongSelecionada, setOngSelecionada] = useState<ONG | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDados(ongs);
-      setLoading(false);
+    const temporizador = setTimeout(() => {
+      setDados(listaOngs);
+      setCarregando(false);
     }, 2000);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(temporizador);
   }, []);
 
-  function abrirModal(ong: any) {
+  function abrirModal(ong: ONG) {
     setOngSelecionada(ong);
-    setModalVisible(true);
+    setModalVisivel(true);
   }
 
-  if (loading) {
+  if (carregando) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={estilos.containerCarregamento}>
         <ActivityIndicator size="large" color="#4CAF50" />
-        <Text style={styles.loadingText}>Carregando ONGs...</Text>
+        <Text style={estilos.textoCarregamento}>
+          Carregando ONGs...
+        </Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={estilos.container}>
       <FlatList
         data={dados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <ONGCard
+          <CartaoONG
             nome={item.nome}
             causa={item.causa}
             imagem={item.imagem}
@@ -55,13 +65,13 @@ export default function Explorar() {
           />
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={estilos.conteudoLista}
       />
 
       {ongSelecionada && (
-        <ONGModal
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
+        <ModalONG
+          visible={modalVisivel}
+          onClose={() => setModalVisivel(false)}
           nome={ongSelecionada.nome}
           descricao={ongSelecionada.descricao}
           causa={ongSelecionada.causa}
@@ -72,23 +82,26 @@ export default function Explorar() {
   );
 }
 
-const styles = StyleSheet.create({
+const estilos = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
     paddingTop: 20,
     paddingHorizontal: 16,
   },
-  listContent: {
+
+  conteudoLista: {
     paddingBottom: 20,
   },
-  loadingContainer: {
+
+  containerCarregamento: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5F5F5',
   },
-  loadingText: {
+
+  textoCarregamento: {
     marginTop: 12,
     fontSize: 16,
     color: '#333',

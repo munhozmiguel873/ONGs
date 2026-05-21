@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Modal,
   View,
@@ -9,9 +10,9 @@ import {
   ScrollView,
 } from 'react-native';
 
-import colors from '../styles/colors';
+import cores from '../styles/colors';
 
-type Props = {
+type Propriedades = {
   visible: boolean;
   onClose: () => void;
   nome: string;
@@ -20,30 +21,52 @@ type Props = {
   imagem?: string;
 };
 
-export default function ONGModal({
+export default function ModalONG({
   visible,
   onClose,
   nome,
   descricao,
   causa,
   imagem,
-}: Props) {
+}: Propriedades) {
   return (
-    <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.overlay}>
-        <View style={styles.modalContainer}>
-          <ScrollView contentContainerStyle={styles.scrollContent}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+    >
+      <View style={estilos.sobreposicao}>
+        <View style={estilos.containerModal}>
+          <ScrollView
+            contentContainerStyle={estilos.conteudoScroll}
+          >
             {imagem ? (
-              <Image source={{ uri: imagem }} style={styles.image} />
+              <Image
+                source={{ uri: imagem }}
+                style={estilos.imagem}
+              />
             ) : null}
 
-            <Text style={styles.title}>{nome}</Text>
-            <Text style={styles.cause}>{causa}</Text>
-            <Text style={styles.description}>{descricao}</Text>
+            <Text style={estilos.titulo}>
+              {nome}
+            </Text>
+
+            <Text style={estilos.causa}>
+              {causa}
+            </Text>
+
+            <Text style={estilos.descricao}>
+              {descricao}
+            </Text>
           </ScrollView>
 
-          <TouchableOpacity style={styles.button} onPress={onClose}>
-            <Text style={styles.buttonText}>Fechar</Text>
+          <TouchableOpacity
+            style={estilos.botao}
+            onPress={onClose}
+          >
+            <Text style={estilos.textoBotao}>
+              Fechar
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -51,64 +74,102 @@ export default function ONGModal({
   );
 }
 
-const styles = StyleSheet.create({
-  overlay: {
+const estilos = StyleSheet.create({
+  sobreposicao: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.45)',
+
     justifyContent: 'center',
     alignItems: 'center',
+
     padding: 20,
   },
-  modalContainer: {
+
+  containerModal: {
     width: '100%',
     maxWidth: 420,
-    backgroundColor: colors.white,
+
+    backgroundColor: cores.white,
+
     borderRadius: 22,
+
     padding: 18,
+
     elevation: 8,
+
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
     shadowOpacity: 0.18,
+
     shadowRadius: 8,
   },
-  scrollContent: {
+
+  conteudoScroll: {
     alignItems: 'center',
   },
-  image: {
+
+  imagem: {
     width: '100%',
     height: 160,
+
     borderRadius: 16,
+
     marginBottom: 14,
   },
-  title: {
+
+  titulo: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: colors.primary,
+
+    color: cores.primary,
+
     marginBottom: 6,
+
     textAlign: 'center',
   },
-  cause: {
+
+  causa: {
     fontSize: 15,
-    color: colors.secondary,
+
+    color: cores.secondary,
+
     marginBottom: 14,
+
     textAlign: 'center',
   },
-  description: {
+
+  descricao: {
     fontSize: 15,
-    color: colors.text,
+
+    color: cores.text,
+
     lineHeight: 22,
+
     textAlign: 'center',
+
     marginBottom: 20,
   },
-  button: {
-    backgroundColor: colors.primary,
+
+  botao: {
+    backgroundColor: cores.primary,
+
     paddingVertical: 14,
+
     borderRadius: 14,
+
     alignItems: 'center',
   },
-  buttonText: {
-    color: colors.white,
+
+  textoBotao: {
+    color: cores.white,
+
     fontWeight: '700',
+
     fontSize: 16,
   },
 });
