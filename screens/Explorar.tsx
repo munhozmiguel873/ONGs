@@ -1,50 +1,56 @@
 import React, { useEffect, useState } from 'react';
-
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 
-import CartaoONG from '../components/ONGCard';
-import ModalONG from '../components/ONGModal';
-import { listaOngs } from '../data/ongs';
+import ONGCard from '../components/ONGCard';
+import ONGModal from '../components/ONGModal';
+import { ongs } from '../data/ongs';
+import colors from '../styles/colors';
 
-type ONG = {
-  id: string;
-  nome: string;
-  causa: string;
-  descricao: string;
-  imagem: string;
-};
+type ONG = typeof ongs[number];
 
 export default function Explorar() {
-  const [carregando, setCarregando] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [dados, setDados] = useState<ONG[]>([]);
-  const [modalVisivel, setModalVisivel] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [ongSelecionada, setOngSelecionada] = useState<ONG | null>(null);
 
   useEffect(() => {
-    const temporizador = setTimeout(() => {
-      setDados(listaOngs);
-      setCarregando(false);
-    }, 2000);
+    const timer = setTimeout(() => {
+      setDados(ongs);
+      setLoading(false);
+    }, 1500);
 
-    return () => clearTimeout(temporizador);
+    return () => clearTimeout(timer);
   }, []);
 
   function abrirModal(ong: ONG) {
     setOngSelecionada(ong);
-    setModalVisivel(true);
+    setModalVisible(true);
   }
 
-  if (carregando) {
+  function fecharModal() {
+    setModalVisible(false);
+    setTimeout(() => {
+      setOngSelecionada(null);
+    }, 300);
+  }
+
+  if (loading) {
     return (
-      <View style={estilos.containerCarregamento}>
-        <ActivityIndicator size="large" color="#4CAF50" />
-        <Text style={estilos.textoCarregamento}>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator
+          size="large"
+          color={colors.primary}
+        />
+
+        <Text style={styles.loadingText}>
           Carregando ONGs...
         </Text>
       </View>
@@ -52,12 +58,25 @@ export default function Explorar() {
   }
 
   return (
-    <View style={estilos.container}>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#F5F7FA"
+      />
+
+      <Text style={styles.title}>
+        Explore ONGs 🌍
+      </Text>
+
+      <Text style={styles.subtitle}>
+        Descubra projetos incríveis e faça a diferença.
+      </Text>
+
       <FlatList
         data={dados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <CartaoONG
+          <ONGCard
             nome={item.nome}
             causa={item.causa}
             imagem={item.imagem}
@@ -65,13 +84,13 @@ export default function Explorar() {
           />
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={estilos.conteudoLista}
+        contentContainerStyle={styles.listContent}
       />
 
       {ongSelecionada && (
-        <ModalONG
-          visible={modalVisivel}
-          onClose={() => setModalVisivel(false)}
+        <ONGModal
+          visible={modalVisible}
+          onClose={fecharModal}
           nome={ongSelecionada.nome}
           descricao={ongSelecionada.descricao}
           causa={ongSelecionada.causa}
@@ -82,28 +101,43 @@ export default function Explorar() {
   );
 }
 
-const estilos = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#F5F7FA',
     paddingTop: 20,
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
   },
 
-  conteudoLista: {
-    paddingBottom: 20,
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 6,
   },
 
-  containerCarregamento: {
+  subtitle: {
+    fontSize: 15,
+    color: '#666',
+    marginBottom: 22,
+    lineHeight: 22,
+  },
+
+  listContent: {
+    paddingBottom: 30,
+  },
+
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#F5F7FA',
   },
 
-  textoCarregamento: {
-    marginTop: 12,
+  loadingText: {
+    marginTop: 14,
     fontSize: 16,
-    color: '#333',
+    color: '#555',
+    fontWeight: '500',
   },
 });
