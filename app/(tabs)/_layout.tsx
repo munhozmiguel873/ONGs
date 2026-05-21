@@ -10,28 +10,13 @@ import {
 
 import { MaterialIcons } from '@expo/vector-icons';
 
-
-// =========================
-// TIPOS DO CONTEXTO
-// =========================
-
 export type UserContextValue = {
   userName: string;
   voluntarioId: string;
 };
 
-
-// =========================
-// CONTEXTO
-// =========================
-
 export const UserContext =
   createContext<UserContextValue | undefined>(undefined);
-
-
-// =========================
-// HOOK PERSONALIZADO
-// =========================
 
 export function useUser() {
 
@@ -46,21 +31,14 @@ export function useUser() {
   return context;
 }
 
-
-// =========================
-// LAYOUT DAS TABS
-// =========================
-
 export default function TabsLayout() {
 
-  // Parâmetros recebidos pela rota
   const params = useLocalSearchParams<{
     userName?: string;
     voluntarioId?: string;
   }>();
 
 
-  // Estados do usuário
   const [userName, setUserName] = useState(
     params.userName ?? 'Voluntário'
   );
@@ -70,7 +48,6 @@ export default function TabsLayout() {
   );
 
 
-  // Atualiza os estados
   useEffect(() => {
 
     if (params.userName) {
@@ -84,7 +61,6 @@ export default function TabsLayout() {
   }, [params]);
 
 
-  // Context memoizado
   const userContextValue = useMemo(() => {
 
     return {
@@ -104,71 +80,51 @@ export default function TabsLayout() {
         screenOptions={({ route }) => ({
 
           headerShown: false,
-
           tabBarActiveTintColor: '#59BA67',
-
           tabBarInactiveTintColor: '#777',
-
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
-
             borderTopColor: '#E6E6E6',
             borderTopWidth: 1,
-
             height: 70,
-
             paddingTop: 8,
             paddingBottom: 8,
-
             elevation: 8,
           },
-
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: '600',
           },
 
 
-          // ÍCONES
           tabBarIcon: ({ color, size }) => {
 
             let iconName: keyof typeof MaterialIcons.glyphMap =
               'dashboard';
 
-
-            // DASHBOARD
             if (route.name === 'dashboard') {
               iconName = 'dashboard';
             }
 
-
-            // EXPLORAR
             else if (route.name === 'explorar') {
               iconName = 'travel-explore';
             }
 
-
-            // PERFIL
             else if (route.name === 'perfil') {
               iconName = 'person';
             }
 
-
             return (
-
               <MaterialIcons
                 name={iconName}
                 size={size}
                 color={color}
               />
-
             );
           },
         })}
       >
 
-
-        {/* DASHBOARD */}
         <Tabs.Screen
           name="dashboard"
           options={{
@@ -176,8 +132,6 @@ export default function TabsLayout() {
           }}
         />
 
-
-        {/* EXPLORAR */}
         <Tabs.Screen
           name="explorar"
           options={{
@@ -185,8 +139,6 @@ export default function TabsLayout() {
           }}
         />
 
-
-        {/* PERFIL */}
         <Tabs.Screen
           name="perfil"
           options={{

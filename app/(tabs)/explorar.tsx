@@ -20,11 +20,8 @@ type ONG = typeof listaOngs[number];
 export default function Explorar() {
 
   const [loading, setLoading] = useState(true);
-
   const [dados, setDados] = useState<ONG[]>([]);
-
   const [modalVisible, setModalVisible] = useState(false);
-
   const [ongSelecionada, setOngSelecionada] =
     useState<ONG | null>(null);
 
