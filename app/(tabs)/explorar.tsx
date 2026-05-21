@@ -11,11 +11,11 @@ import {
 
 import ONGCard from '../../components/ONGCard';
 import ONGModal from '../../components/ONGModal';
-import { ongs } from '../../data/ongs';
+import { listaOngs } from '../../data/ongs';
 import colors from '../../styles/colors';
 
 
-type ONG = typeof ongs[number];
+type ONG = typeof listaOngs[number];
 
 export default function Explorar() {
 
@@ -33,7 +33,7 @@ export default function Explorar() {
 
     const timer = setTimeout(() => {
 
-      setDados(ongs);
+      setDados(listaOngs);
 
       setLoading(false);
 
