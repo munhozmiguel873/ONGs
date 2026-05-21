@@ -1,4 +1,5 @@
 import { Tabs, useLocalSearchParams } from 'expo-router';
+
 import {
   createContext,
   useMemo,
@@ -21,7 +22,7 @@ export type UserContextValue = {
 
 
 // =========================
-// CRIAÇÃO DO CONTEXTO
+// CONTEXTO
 // =========================
 
 export const UserContext =
@@ -32,17 +33,18 @@ export const UserContext =
 // HOOK PERSONALIZADO
 // =========================
 
-export const useUser = () => {
+export function useUser() {
+
   const context = useContext(UserContext);
 
   if (!context) {
     throw new Error(
-      'useUser deve ser usado dentro de um UserProvider'
+      'useUser deve ser usado dentro do UserContext.Provider'
     );
   }
 
   return context;
-};
+}
 
 
 // =========================
@@ -51,7 +53,7 @@ export const useUser = () => {
 
 export default function TabsLayout() {
 
-  // Pegando parâmetros da rota
+  // Parâmetros recebidos pela rota
   const params = useLocalSearchParams<{
     userName?: string;
     voluntarioId?: string;
@@ -68,52 +70,57 @@ export default function TabsLayout() {
   );
 
 
-  // Atualiza caso os parâmetros mudem
+  // Atualiza os estados
   useEffect(() => {
 
     if (params.userName) {
-      setUserName(params.userName);
+      setUserName(String(params.userName));
     }
 
     if (params.voluntarioId) {
-      setVoluntarioId(params.voluntarioId);
+      setVoluntarioId(String(params.voluntarioId));
     }
 
-  }, [params.userName, params.voluntarioId]);
+  }, [params]);
 
 
-  // Memoriza os dados do contexto
-  const userContextValue = useMemo(
-    () => ({
+  // Context memoizado
+  const userContextValue = useMemo(() => {
+
+    return {
       userName,
       voluntarioId,
-    }),
-    [userName, voluntarioId]
-  );
+    };
+
+  }, [userName, voluntarioId]);
 
 
   return (
+
     <UserContext.Provider value={userContextValue}>
 
       <Tabs
+
         screenOptions={({ route }) => ({
 
           headerShown: false,
 
           tabBarActiveTintColor: '#59BA67',
+
           tabBarInactiveTintColor: '#777',
 
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
+
             borderTopColor: '#E6E6E6',
             borderTopWidth: 1,
 
-            elevation: 8,
-
             height: 70,
 
-            paddingBottom: 8,
             paddingTop: 8,
+            paddingBottom: 8,
+
+            elevation: 8,
           },
 
           tabBarLabelStyle: {
@@ -121,36 +128,45 @@ export default function TabsLayout() {
             fontWeight: '600',
           },
 
+
+          // ÍCONES
           tabBarIcon: ({ color, size }) => {
 
             let iconName: keyof typeof MaterialIcons.glyphMap =
               'dashboard';
 
-            // Dashboard
+
+            // DASHBOARD
             if (route.name === 'dashboard') {
               iconName = 'dashboard';
             }
 
-            // Explorar
+
+            // EXPLORAR
             else if (route.name === 'explorar') {
               iconName = 'travel-explore';
             }
 
-            // Perfil
+
+            // PERFIL
             else if (route.name === 'perfil') {
               iconName = 'person';
             }
 
+
             return (
+
               <MaterialIcons
                 name={iconName}
                 size={size}
                 color={color}
               />
+
             );
           },
         })}
       >
+
 
         {/* DASHBOARD */}
         <Tabs.Screen
