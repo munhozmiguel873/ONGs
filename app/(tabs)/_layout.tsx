@@ -110,6 +110,9 @@ export default function TabsLayout() {
               iconName = 'travel-explore';
             }
 
+            else if (route.name === 'galeria') {
+              iconName = 'photo-library';
+            }
             else if (route.name === 'perfil') {
               iconName = 'person';
             }
@@ -140,11 +143,18 @@ export default function TabsLayout() {
         />
 
         <Tabs.Screen
+          name="galeria"
+          options={{
+            title: 'Galeria',
+          }}
+        />
+
+        <Tabs.Screen
           name="perfil"
           options={{
             title: 'Perfil',
           }}
-        />
+        /> 
 
       </Tabs>
 
