@@ -41,7 +41,7 @@ export const listaOngs = [
       'Atendimento médico gratuito e campanhas de prevenção para comunidades vulneráveis.',
 
     imagem:
-      'https://i.pinimg.com/236x/41/a7/23/41a7233fdf20035ff118461319c227a1.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrfF1cm57-0JNa6OTvm4lw6jpxfvpmx4OHvBXK10SUOMCb1AeQL5c4ti3N&s=10',
 
     descricaoCompleta:
       'A ONG "Saúde Solidária" é dedicada ao atendimento médico gratuito e à promoção da saúde em comunidades vulneráveis.',
@@ -58,7 +58,7 @@ export const listaOngs = [
       'Rede de voluntariado que organiza doações e suporte direto a famílias em situação de risco.',
 
     imagem:
-      'https://i.pinimg.com/736x/bf/d8/67/bfd867d85dcf30b0de9844cd9a0f156e.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1dJCr-LVn0dznMklTAFZTt7xNb6nwBdCIb4zkHERqgFPZzvnTSK4rQSLw&s=10',
 
     descricaoCompleta:
       'A ONG "Mãos que Ajudam" é uma rede de voluntariado dedicada a organizar doações e fornecer suporte direto a famílias em situação de risco.',
