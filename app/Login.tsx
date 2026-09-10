@@ -51,10 +51,9 @@ export default function Login() {
         value={password}
         onChangeText={setPassword}
       />
-      <Text style={styles.hintText}>A senha deve conter 6 dígitos numéricos.</Text>
+      <Text style={styles.hintText}>A senha deve conter 6 dígitos numéricos. "SENHA:123456"</Text>
 
       <TouchableOpacity style={styles.button} onPress={handleLogin} activeOpacity={0.8}>
-        {/* TEXTO ALTERADO DE "Sair" PARA "Entrar" */}
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 
